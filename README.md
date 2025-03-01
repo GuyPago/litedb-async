@@ -24,18 +24,18 @@ dotnet add package LiteDB.Async
 
 Open a LiteDbAsync instance by calling the constructor in the standard way.
 
-```
+```C#
 var db = new LiteDatabaseAsync("Filename=mydatabase.db;Connection=shared;Password=hunter2");
 ```
 
 Collections are the equivalent of tables
-```
+```C#
 var collection = _db.GetCollection<SimplePerson>();
 ```
 This will give us an instance of the collection we can read and write.
 
 We can upsert just like in the regular LiteDb
-```
+```C#
 var collection = _db.GetCollection<SimplePerson>();
             var person = new SimplePerson()
             {
@@ -52,20 +52,20 @@ var collection = _db.GetCollection<SimplePerson>();
 When we want to read from the database we should use a query.
 
 To read all SimplePerson's in the database
-```
+```C#
 var collection = _db.GetCollection<SimplePerson>();
 var listResult = await collection.Query().ToListAsync();
 ```
 
 You can use Linq 
-```
+```C#
 var theSmiths = await collection.Query().Where(x => x.Lastname == "Smith").ToListAsync();
 ```
 
 ### Transactions
 
 Use the BeginTransaction method to start a transaction
-```
+```C#
 using var asyncDb1 = new LiteDatabaseAsync(connectionString);
 using var asyncDb2 = await asyncDb1.BeginTransactionAsync();
 ```
@@ -75,7 +75,7 @@ Operations run on asyncDb2 are now isolated from asyncDb1. They can also be roll
 From version 5.0.16 of LiteDb we started to have problems with transactions on Shared connections. Therefore will be recommending Direct connections from LiteDb.Async version 0.1.6 goind forward.
 
 To commit
-```
+```C#
 await asyncDb2.CommitAsync();
 ```
 
@@ -83,19 +83,19 @@ await asyncDb2.CommitAsync();
 
 Almost all functions from LiteDb have an async replacement
 
-From Collections
+**From Collections:**
 
-Query, CountAsync, LongCountAsync, ExistsAsync, MinAsync, MaxAsync, DeleteAsync, DeleteManyAsync, FindAsync, FindByIdAsync, FindOneAsync, FindAllAsync, Include, EnsureIndexAsync, InsertAsync, UpdateAsync, UpdateManyAsync, UpsertAsync
+• Query • CountAsync • LongCountAsync • ExistsAsync • MinAsync • MaxAsync • DeleteAsync • DeleteManyAsync • FindAsync • FindByIdAsync • FindOneAsync • FindAllAsync • Include • EnsureIndexAsync • InsertAsync • UpdateAsync • UpdateManyAsync • UpsertAsync  
 
-From Query
+**From Query**
 
-Include, Where, OrderBy, OrderByDescending, GroupBy, Select, Limit, Skip, Offset, ForUpdate, ToDocumentsAsync, ToEnumerableAsync, ToListAsync, ToArrayAsync, FirstAsync, FirstOrDefaultAsync, SingleAsync, SingleOrDefaultAsync, CountAsync, LongCountAsync, ExistsAsync
+• Include • Where • OrderBy • OrderByDescending • GroupBy • Select • Limit • Skip • Offset • ForUpdate • ToDocumentsAsync • ToEnumerableAsync • ToListAsync • ToArrayAsync • FirstAsync • FirstOrDefaultAsync • SingleAsync • SingleOrDefaultAsync • CountAsync • LongCountAsync • ExistsAsync
 
-From Database
+**From Database:**
 
-UtcDate, CheckpointSize, UserVersion, Timeout, Collation, LimitSize, BeginTransAsync, CommitAsync, RollbackAsync, PragmaAsync, GetCollectionNamesAsync, CollectionExistsAsync, DropCollectionAsync, RenameCollectionAsync, CheckpointAsync, RebuildAsync
+• UtcDate • CheckpointSize • UserVersion • Timeout • Collation • LimitSize • BeginTransAsync • CommitAsync • RollbackAsync • PragmaAsync • GetCollectionNamesAsync • CollectionExistsAsync • DropCollectionAsync • RenameCollectionAsync • CheckpointAsync • RebuildAsync  
 
-From Storage
+**From Storage**
 
 
 ### How does it work?
